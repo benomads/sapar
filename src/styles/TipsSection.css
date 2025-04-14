@@ -1,0 +1,157 @@
+@import './colors.css';
+
+.tips {
+  padding: 6rem 2rem;
+  background: var(--neutral-white);
+}
+
+.section-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.tips h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--primary-green-dark);
+}
+
+.section-description {
+  text-align: center;
+  font-size: 1.2rem;
+  color: var(--neutral-gray);
+  margin-bottom: 3rem;
+}
+
+.tips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.tip-card {
+  background: var(--neutral-light);
+  border-radius: 12px;
+  padding: 2rem;
+  transition: all var(--transition-normal);
+  border: 1px solid var(--accent-green);
+  position: relative;
+  overflow: hidden;
+}
+
+.tip-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary-green-light);
+}
+
+.tip-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--gradient-green);
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.tip-card:hover::before {
+  opacity: 1;
+}
+
+.tip-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.tip-card h3 {
+  font-size: 1.25rem;
+  color: var(--primary-green-dark);
+  margin-bottom: 1rem;
+}
+
+.tip-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tip-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  color: var(--neutral-gray);
+  font-size: 0.95rem;
+}
+
+.tip-list li i {
+  color: var(--primary-green);
+  font-size: 0.875rem;
+}
+
+.tips-footer {
+  text-align: center;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--accent-green);
+}
+
+.tips-footer p {
+  color: var(--neutral-gray);
+  margin-bottom: 1rem;
+}
+
+.guide-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--primary-green);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all var(--transition-normal);
+}
+
+.guide-link:hover {
+  color: var(--primary-green-dark);
+  transform: translateX(5px);
+}
+
+.guide-link i {
+  transition: transform var(--transition-normal);
+}
+
+.guide-link:hover i {
+  transform: translateX(5px);
+}
+
+@media (max-width: 768px) {
+  .tips {
+    padding: 4rem 1rem;
+  }
+
+  .tips h2 {
+    font-size: 2rem;
+  }
+
+  .section-description {
+    font-size: 1rem;
+  }
+
+  .tips-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .tip-card {
+    padding: 1.5rem;
+  }
+
+  .tip-icon {
+    font-size: 2rem;
+  }
+} 

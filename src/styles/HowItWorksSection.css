@@ -1,0 +1,123 @@
+@import './colors.css';
+
+.how-it-works {
+  padding: 6rem 2rem;
+  background: var(--neutral-light);
+}
+
+.section-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.how-it-works h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--primary-green-dark);
+}
+
+.section-description {
+  text-align: center;
+  font-size: 1.2rem;
+  color: var(--neutral-gray);
+  margin-bottom: 3rem;
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  position: relative;
+}
+
+.steps-grid::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent-green);
+  z-index: 1;
+}
+
+.step-card {
+  background: var(--neutral-white);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-normal);
+  border: 1px solid var(--accent-green);
+}
+
+.step-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary-green-light);
+}
+
+.step-number {
+  width: 40px;
+  height: 40px;
+  background: var(--primary-green);
+  color: var(--neutral-white);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  margin: 0 auto 1.5rem;
+  font-size: 1.25rem;
+}
+
+.step-icon {
+  font-size: 2.5rem;
+  color: var(--primary-green);
+  margin-bottom: 1rem;
+}
+
+.step-card h3 {
+  color: var(--primary-green-dark);
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+}
+
+.step-card p {
+  color: var(--neutral-gray);
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .how-it-works {
+    padding: 4rem 1rem;
+  }
+
+  .how-it-works h2 {
+    font-size: 2rem;
+  }
+
+  .section-description {
+    font-size: 1rem;
+  }
+
+  .steps-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .steps-grid::before {
+    display: none;
+  }
+
+  .step-card {
+    padding: 1.5rem;
+  }
+
+  .step-icon {
+    font-size: 2rem;
+  }
+} 

@@ -1,0 +1,40 @@
+:root {
+  /* Primary Colors */
+  --primary-green: #2E7D32;
+  --primary-green-light: #4CAF50;
+  --primary-green-dark: #1B5E20;
+  
+  /* Secondary Colors */
+  --secondary-green: #81C784;
+  --secondary-green-light: #A5D6A7;
+  --secondary-green-dark: #388E3C;
+  
+  /* Accent Colors */
+  --accent-green: #C8E6C9;
+  --accent-green-light: #E8F5E9;
+  
+  /* Neutral Colors */
+  --neutral-dark: #1A1A1A;
+  --neutral-gray: #666666;
+  --neutral-light: #F8F9FA;
+  --neutral-white: #FFFFFF;
+  
+  /* Status Colors */
+  --success: #2E7D32;
+  --warning: #FFA000;
+  --error: #D32F2F;
+  
+  /* Gradients */
+  --gradient-green: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-green-light) 100%);
+  --gradient-dark: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.5) 100%);
+  
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 15px rgba(0, 0, 0, 0.1);
+  
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+} 

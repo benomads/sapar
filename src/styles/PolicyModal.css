@@ -1,0 +1,136 @@
+@import './colors.css';
+
+.policy-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+  animation: fadeIn 0.3s ease;
+  padding: 20px;
+}
+
+.policy-modal {
+  background: var(--neutral-white);
+  border-radius: 12px;
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 800px;
+  position: relative;
+  animation: slideUp 0.3s ease;
+  margin: 0 auto;
+  box-shadow: var(--shadow-lg);
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.policy-modal-close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--neutral-gray);
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.policy-modal-close:hover {
+  color: var(--primary-green);
+}
+
+.policy-modal-header {
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--neutral-light);
+  padding-bottom: 1rem;
+}
+
+.policy-modal-header h2 {
+  color: var(--primary-green-dark);
+  font-size: 2rem;
+}
+
+.policy-modal-content {
+  color: #000000;
+  line-height: 1.6;
+}
+
+.policy-modal-content h3 {
+  color: var(--primary-green);
+  margin: 1.5rem 0 1rem;
+  font-size: 1.25rem;
+}
+
+.policy-modal-content p {
+  margin-bottom: 1rem;
+  color: #000000;
+}
+
+.policy-modal-content ul {
+  margin-bottom: 1rem;
+  padding-left: 2rem;
+}
+
+.policy-modal-content li {
+  margin-bottom: 0.5rem;
+  color: #000000;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .policy-modal {
+    padding: 1.5rem;
+    max-height: 85vh;
+  }
+  
+  .policy-modal-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .policy-modal-content h3 {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .policy-modal {
+    padding: 1.25rem;
+  }
+  
+  .policy-modal-header {
+    margin-bottom: 1.5rem;
+  }
+  
+  .policy-modal-content h3 {
+    margin: 1.25rem 0 0.75rem;
+  }
+} 

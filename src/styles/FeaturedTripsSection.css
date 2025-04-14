@@ -1,0 +1,346 @@
+@import './colors.css';
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.featured-trips {
+  padding: 6rem 2rem;
+  background: var(--neutral-white);
+}
+
+.section-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  animation: slideUp 0.8s ease-out forwards;
+}
+
+.featured-trips h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--primary-green-dark);
+  opacity: 0;
+  animation: slideUp 0.8s ease-out 0.2s forwards;
+}
+
+.section-description {
+  text-align: center;
+  font-size: 1.2rem;
+  color: var(--neutral-gray);
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: slideUp 0.8s ease-out 0.4s forwards;
+}
+
+.trips-filter {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+  opacity: 0;
+  animation: slideUp 0.8s ease-out 0.5s forwards;
+}
+
+.filter-btn {
+  background: var(--neutral-light);
+  border: 2px solid var(--accent-green);
+  color: var(--neutral-gray);
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filter-btn:hover {
+  border-color: var(--primary-green);
+  transform: translateY(-2px);
+}
+
+.filter-btn.active {
+  background: var(--primary-green);
+  color: var(--neutral-white);
+  border-color: var(--primary-green);
+}
+
+.favorites-count {
+  background: var(--primary-green-dark);
+  color: var(--neutral-white);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+.filter-btn.active .favorites-count {
+  background: var(--neutral-white);
+  color: var(--primary-green);
+}
+
+.empty-favorites {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: var(--neutral-light);
+  border-radius: 12px;
+  margin-bottom: 3rem;
+  opacity: 0;
+  animation: slideUp 0.8s ease-out 0.6s forwards;
+}
+
+.empty-heart {
+  font-size: 4rem;
+  color: var(--neutral-gray);
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+.empty-favorites h3 {
+  font-size: 1.5rem;
+  color: var(--primary-green-dark);
+  margin-bottom: 1rem;
+}
+
+.empty-favorites p {
+  color: var(--neutral-gray);
+  margin-bottom: 2rem;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.trips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.trip-card {
+  background: var(--neutral-white);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-normal);
+  border: 1px solid var(--accent-green);
+  opacity: 0;
+  animation: slideUp 0.8s ease-out forwards;
+}
+
+.trip-card:nth-child(1) { animation-delay: 0.6s; }
+.trip-card:nth-child(2) { animation-delay: 0.8s; }
+.trip-card:nth-child(3) { animation-delay: 1s; }
+
+.trip-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary-green-light);
+}
+
+.trip-image {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.trip-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-normal);
+}
+
+.trip-card:hover .trip-image img {
+  transform: scale(1.05);
+}
+
+.trip-duration {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: var(--primary-green);
+  color: var(--neutral-white);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+
+.favorite-btn {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  background: rgba(255, 255, 255, 0.8);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+
+.favorite-btn:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: scale(1.05);
+}
+
+.favorite-btn svg {
+  transition: all 0.2s ease;
+}
+
+.favorite-btn:hover svg {
+  transform: scale(1.1);
+}
+
+@keyframes heartPop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.favorite-btn.active svg {
+  animation: heartPop 0.3s ease;
+}
+
+.trip-content {
+  padding: 1.5rem;
+}
+
+.trip-content h3 {
+  color: var(--primary-green-dark);
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+}
+
+.trip-content p {
+  color: var(--neutral-gray);
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.trip-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--neutral-light);
+}
+
+.trip-price {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--primary-green);
+}
+
+.trip-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--accent-green);
+}
+
+.trip-rating i {
+  font-size: 0.875rem;
+}
+
+.trip-meta {
+  display: flex;
+  gap: 1rem;
+  color: var(--neutral-gray);
+  font-size: 0.875rem;
+}
+
+.trip-meta span {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.trip-meta i {
+  color: var(--primary-green);
+}
+
+.view-all-trips {
+  text-align: center;
+  margin-top: 2rem;
+  opacity: 0;
+  animation: slideUp 0.8s ease-out 1.2s forwards;
+}
+
+.view-all-trips .btn {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+  .featured-trips {
+    padding: 4rem 1rem;
+  }
+
+  .featured-trips h2 {
+    font-size: 2rem;
+  }
+
+  .section-description {
+    font-size: 1rem;
+  }
+
+  .trips-filter {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .filter-btn {
+    width: 100%;
+    max-width: 300px;
+    justify-content: center;
+  }
+
+  .trips-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .trip-image {
+    height: 180px;
+  }
+
+  .trip-content {
+    padding: 1.25rem;
+  }
+
+  .trip-content h3 {
+    font-size: 1.1rem;
+  }
+
+  .trip-meta {
+    flex-wrap: wrap;
+  }
+} 

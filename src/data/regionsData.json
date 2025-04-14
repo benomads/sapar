@@ -1,0 +1,214 @@
+[
+    {
+        "id": "almaty",
+        "name": "Алматинская область",
+        "description": "Горные пейзажи, Кольсайские озёра, Чарынский каньон",
+        "image": "/regions/almaty.jpg",
+        "coordinates": [43.222, 76.851]
+    },
+    {
+        "id": "mangystau",
+        "name": "Мангистауская область",
+        "description": "Пустынные ландшафты, каньоны, древние памятники",
+        "image": "/regions/mangystau.jpg",
+        "coordinates": [44.208, 51.23]
+    },
+    {
+        "id": "east-kazakhstan",
+        "name": "Восточно-Казахстанская область",
+        "description": "Алтайские горы, озёра, дикая природа",
+        "image": "/regions/east-kazakhstan.jpg",
+        "coordinates": [49.948, 82.627]
+    },
+
+    {
+        "id": "kolsai-lakes",
+        "name": "Кольсайские озёра",
+        "description": "Живописные горные озёра с прозрачной водой, идеально для хайкинга и кемпинга",
+        "image": "/places/kolsai.jpg",
+        "coordinates": [42.985, 78.33]
+    },
+    {
+        "id": "charyn-canyon",
+        "name": "Чарынский каньон",
+        "description": "Уникальный каньон, напоминающий Гранд-Каньон, природный парк",
+        "image": "/places/charyn.jpg",
+        "coordinates": [43.356, 79.072]
+    },
+    {
+        "id": "boszhira",
+        "name": "Бозжыра",
+        "description": "Инопланетные пейзажи плато Устюрт, белые скалы и пустынные просторы",
+        "image": "/places/boszhira.jpg",
+        "coordinates": [43.43, 54.069]
+    },
+    {
+        "id": "lake-kaindy",
+        "name": "Озеро Каинды",
+        "description": "Подводный лес, образованный после землетрясения, находится в горах",
+        "image": "/places/kaindy.jpg",
+        "coordinates": [42.977, 78.472]
+    },
+    {
+        "id": "altai-mountains",
+        "name": "Алтайские горы",
+        "description": "Густые леса, горные вершины, чистые реки и дикая природа",
+        "image": "/places/altai.jpg",
+        "coordinates": [49.126, 86.055]
+    },
+    {
+        "id": "singing-dune",
+        "name": "Поющий бархан",
+        "description": "Песчаная дюна, издающая звуки при движении, находится в Алтын-Эмель",
+        "image": "/places/singing-dune.jpg",
+        "coordinates": [43.875, 78.553]
+    },
+    {
+        "id": "moyynkum-desert",
+        "name": "Пустыня Мойынкум",
+        "description": "Широкие песчаные просторы и уникальная флора",
+        "image": "/places/moyynkum.jpg",
+        "coordinates": [44.621, 70.729]
+    },
+    {
+        "id": "mausoleum-khoja-ahmed",
+        "name": "Мавзолей Ходжи Ахмеда Ясави",
+        "description": "Великий архитектурный памятник в Туркестане, объект ЮНЕСКО",
+        "image": "/places/mausoleum.jpg",
+        "coordinates": [43.297, 68.267]
+    },
+    {
+        "id": "kolsai-lakes",
+        "name": "Кольсайские озёра",
+        "description": "Живописные горные озёра с прозрачной водой, идеально для хайкинга и кемпинга",
+        "image": "/places/kolsai.jpg",
+        "coordinates": [42.985, 78.33]
+    },
+    {
+        "id": "charyn-canyon",
+        "name": "Чарынский каньон",
+        "description": "Уникальный каньон, напоминающий Гранд-Каньон, природный парк",
+        "image": "/places/charyn.jpg",
+        "coordinates": [43.356, 79.072]
+    },
+    {
+        "id": "boszhira",
+        "name": "Бозжыра",
+        "description": "Инопланетные пейзажи плато Устюрт, белые скалы и пустынные просторы",
+        "image": "/places/boszhira.jpg",
+        "coordinates": [43.43, 54.069]
+    },
+    {
+        "id": "lake-kaindy",
+        "name": "Озеро Каинды",
+        "description": "Подводный лес, образованный после землетрясения, находится в горах",
+        "image": "/places/kaindy.jpg",
+        "coordinates": [42.977, 78.472]
+    },
+    {
+        "id": "altai-mountains",
+        "name": "Алтайские горы",
+        "description": "Густые леса, горные вершины, чистые реки и дикая природа",
+        "image": "/places/altai.jpg",
+        "coordinates": [49.126, 86.055]
+    },
+    {
+        "id": "singing-dune",
+        "name": "Поющий бархан",
+        "description": "Песчаная дюна, издающая звуки при движении, находится в Алтын-Эмель",
+        "image": "/places/singing-dune.jpg",
+        "coordinates": [43.875, 78.553]
+    },
+    {
+        "id": "moyynkum-desert",
+        "name": "Пустыня Мойынкум",
+        "description": "Широкие песчаные просторы и уникальная флора",
+        "image": "/places/moyynkum.jpg",
+        "coordinates": [44.621, 70.729]
+    },
+    {
+        "id": "mausoleum-khoja-ahmed",
+        "name": "Мавзолей Ходжи Ахмеда Ясави",
+        "description": "Великий архитектурный памятник в Туркестане, объект ЮНЕСКО",
+        "image": "/places/mausoleum.jpg",
+        "coordinates": [43.297, 68.267]
+    },
+
+    {
+        "id": "borovoe",
+        "name": "Боровое",
+        "description": "Живописные озёра, сосновые леса, скалы. Называют 'Казахстанская Швейцария'",
+        "image": "/places/borovoe.jpg",
+        "coordinates": [53.085, 70.32]
+    },
+    {
+        "id": "kokshetau-park",
+        "name": "Национальный парк «Кокшетау»",
+        "description": "Природный парк с холмами, озёрами и хвойными лесами",
+        "image": "/places/kokshetau-park.jpg",
+        "coordinates": [53.278, 69.396]
+    },
+    {
+        "id": "lake-shalkar",
+        "name": "Озеро Шалкар",
+        "description": "Солёное озеро в степи с лечебной грязью",
+        "image": "/places/shalkar.jpg",
+        "coordinates": [53.809, 66.56]
+    },
+    {
+        "id": "imantai-hills",
+        "name": "Имантайские горы",
+        "description": "Невысокие горы и озёра, место для спокойного отдыха на природе",
+        "image": "/places/imantai.jpg",
+        "coordinates": [53.5, 68.4]
+    },
+    {
+        "id": "arkalyk-rocks",
+        "name": "Аркалыкские скалы",
+        "description": "Необычные каменные образования в степях",
+        "image": "/places/arkalyk-rocks.jpg",
+        "coordinates": [50.25, 66.933]
+    },
+    {
+        "id": "lake-teniz",
+        "name": "Озеро Тениз",
+        "description": "Крупное солёное озеро, важно для миграции птиц (входит в ЮНЕСКО)",
+        "image": "/places/teniz.jpg",
+        "coordinates": [51.933, 69.883]
+    },
+    {
+        "id": "seyfullin-park",
+        "name": "Парк имени Сакена Сейфуллина (Петропавловск)",
+        "description": "Исторический парк с музеем, памятниками и зоной отдыха",
+        "image": "/places/seyfullin-park.jpg",
+        "coordinates": [54.873, 69.153]
+    },
+    {
+        "id": "korgalzhyn",
+        "name": "Коргалжынский заповедник",
+        "description": "ЮНЕСКО биосферный резерват. Фламинго, солёные озёра и степи",
+        "image": "/places/korgalzhyn.jpg",
+        "coordinates": [50.583, 69.383]
+    },
+    {
+        "id": "zerenda",
+        "name": "Зеренда",
+        "description": "Небольшое курортное место у озера, сосновые леса, база отдыха",
+        "image": "/places/zerenda.jpg",
+        "coordinates": [52.933, 68.65]
+    },
+    {
+        "id": "esil-nature",
+        "name": "Природа реки Есиль",
+        "description": "Живописные берега и рыбалка в северных районах Казахстана",
+        "image": "/places/esil.jpg",
+        "coordinates": [53.45, 66.5]
+    },
+    {
+        "id": "turgay-plateau",
+        "name": "Тургайское плато",
+        "description": "Степи, каньоны, озёра и геологические образования",
+        "image": "/places/turgay.jpg",
+        "coordinates": [50.9, 65.6]
+    }
+]

@@ -1,0 +1,68 @@
+[
+    {
+        "id": 1,
+        "title": "Приключение в Чарынском каньоне",
+        "description": "Исследуйте потрясающие красные скальные образования и скрытые тропы казахстанского Гранд-Каньона.",
+        "image": "src/assets/featuredTrips/Charyn_Canyon.jpg",
+        "duration": "3 дня",
+        "price": "20000тг",
+        "rating": 4.8,
+        "participants": 12,
+        "difficulty": "Средний"
+    },
+    {
+        "id": 2,
+        "title": "Поход к Кольсайским озёрам",
+        "description": "Пройдите по живописным тропам Тянь-Шаня, чтобы открыть для себя три кристально чистых горных озера.",
+        "image": "src/assets/featuredTrips/kolsai-lakes.jpg",
+        "duration": "4 дня",
+        "price": "50000тг",
+        "rating": 4.9,
+        "participants": 8,
+        "difficulty": "Сложный"
+    },
+    {
+        "id": 3,
+        "title": "Сафари по Алтын-Эмелю",
+        "description": "Познакомьтесь с уникальными ландшафтами национального парка Алтын-Эмель, включая Поющий бархан.",
+        "image": "src/assets/featuredTrips/altyn-emel.jpg",
+        "duration": "2 дня",
+        "price": "40000тг",
+        "rating": 4.7,
+        "participants": 15,
+        "difficulty": "Легкий"
+    },
+    {
+        "id": 4,
+        "title": "Поход на Белуху",
+        "description": "Восхождение на высочайшую точку Алтая – гору Белуха. Невероятные виды и мощная энергетика места!",
+        "image": "src/assets/featuredTrips/oskemen_beluha_mount.jpg",
+        "duration": "7 дней",
+        "price": "100000тг",
+        "rating": 4.9,
+        "participants": 6,
+        "difficulty": "Сложный"
+    },
+    {
+        "id": 5,
+        "title": "Путешествие в Боровое",
+        "description": "Откройте для себя «Казахстанскую Швейцарию» с её живописными горами, кристально чистыми озёрами и густыми лесами.",
+        "image": "src/assets/featuredTrips/borovoe.jpg",
+        "duration": "2 дня",
+        "price": "15000тг",
+        "rating": 4.8,
+        "participants": 14,
+        "difficulty": "Легкий"
+    },
+    {
+        "id": 6,
+        "title": "Мангистауское чудо",
+        "description": "Исследуйте загадочные подземные мечети, величественные скалы и бескрайние просторы плато Устюрт.",
+        "image": "src/assets/featuredTrips/mangystau_bozjira tract.png",
+        "duration": "5 дней",
+        "price": "70000тг",
+        "rating": 4.9,
+        "participants": 6,
+        "difficulty": "Сложный"
+    }
+]
