@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "../styles/HeroSection.css";
+import heroBackground from "../assets/ALP-hero-bg-hiking-medium.png";
 
 const HeroSection = () => {
     const scrollToSection = (sectionId) => {
@@ -9,7 +10,7 @@ const HeroSection = () => {
     };
 
     return (
-        <section className="hero">
+        <section className="hero" style={{ background: `url(${heroBackground}) center/cover no-repeat` }}>
             <div className="hero-overlay"></div>
             <div className="hero-content">
                 <h1>Откройте для себя сокровища Казахстана</h1>
