@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ContactModal from './ContactModal';
-import '../styles/FAQSection.css';
+import '../styles/FaqSection.css';
 import faqData from '../data/faqData.json';
 
 const FAQSection = () => {
