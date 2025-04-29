@@ -7,7 +7,7 @@ import FeaturedTripsSection from "./components/FeaturedTripsSection";
 import InteractiveMapSection from "./components/InteractiveMapSection";
 import CommunityTestimonialsSection from "./components/CommunityTestimonialsSection";
 import TipsSection from "./components/TipsSection";
-import FAQSection from "./components/FAQSection";
+import FAQSection from "./components/FaqSection";
 import Footer from "./components/Footer";
 import AuthPage from "./components/AuthPage";
 import "./styles/App.css";
