@@ -1,17 +1,38 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../styles/FeaturedTripsSection.css';
-import TripModal from './TripModal';
-import featuredTrips from '../data/featuredTripsData.json';
-
+import tripService from '../services/tripService';
 
 const FeaturedTripsSection = () => {
+  const navigate = useNavigate();
+  const [trips, setTrips] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const [activeFilter, setActiveFilter] = useState('all');
-  const [selectedTrip, setSelectedTrip] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
   
 
   useEffect(() => {
+    const fetchTrips = async () => {
+      try {
+        setIsLoading(true);
+        const fetchedTrips = await tripService.getAllTrips();
+        
+        // Get only 6 trips maximum for featured section
+        const featuredTrips = fetchedTrips.slice(0, 6);
+        setTrips(featuredTrips);
+        setError(null);
+      } catch (err) {
+        console.error('Error fetching trips:', err);
+        setError('Failed to load trips. Please try again later.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    fetchTrips();
+    
+    // Load saved favorites
     const savedFavorites = localStorage.getItem('tripFavorites');
     if (savedFavorites) {
       setFavorites(JSON.parse(savedFavorites));
@@ -23,34 +44,62 @@ const FeaturedTripsSection = () => {
     localStorage.setItem('tripFavorites', JSON.stringify(favorites));
   }, [favorites]);
 
-  const toggleFavorite = (id) => {
-    if (favorites.includes(id)) {
-      setFavorites(favorites.filter(favId => favId !== id));
-    } else {
-      setFavorites([...favorites, id]);
+  const toggleFavorite = async (id, e) => {
+    // Prevent navigating to trip details when clicking the favorite button
+    e.stopPropagation();
+    
+    try {
+      const isFavorite = !favorites.includes(id);
+      
+      // Update UI immediately for better user experience
+      if (isFavorite) {
+        setFavorites([...favorites, id]);
+      } else {
+        setFavorites(favorites.filter(favId => favId !== id));
+      }
+      
+      // Call API to update favorite status
+      await tripService.toggleFavorite(id, isFavorite);
+    } catch (err) {
+      console.error('Error toggling favorite:', err);
+      // Revert on error
+      if (favorites.includes(id)) {
+        setFavorites(favorites.filter(favId => favId !== id));
+      } else {
+        setFavorites([...favorites, id]);
+      }
     }
   };
   
   const filteredTrips = activeFilter === 'favorites' 
-    ? featuredTrips.filter(trip => favorites.includes(trip.id))
-    : featuredTrips;
+    ? trips.filter(trip => favorites.includes(trip.id))
+    : trips;
     
-  const handleTripClick = (trip) => {
-    setSelectedTrip(trip);
-    document.body.style.overflow = 'hidden';
+  const handleTripClick = (tripId) => {
+    navigate(`/trip/${tripId}`);
   };
 
-  const handleCloseModal = () => {
-    setSelectedTrip(null);
-    document.body.style.overflow = 'auto';
-  };
-  
+  if (isLoading) {
+    return (
+      <section className="featured-trips" id='trips'>
+        <div className="section-container">
+          <h2>Популярные приключения</h2>
+          <p className="section-description">Загрузка маршрутов...</p>
+        </div>
+      </section>
+    );
+  }
 
-  const handleBookTrip = (tripId, formData) => {
-    console.log('Trip booked:', tripId, formData);
-    alert('Поездка успешно забронирована! Мы свяжемся с вами в ближайшее время.');
-    handleCloseModal();
-  };
+  if (error) {
+    return (
+      <section className="featured-trips" id='trips'>
+        <div className="section-container">
+          <h2>Популярные приключения</h2>
+          <p className="section-description error">{error}</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="featured-trips" id='trips'>
@@ -92,20 +141,25 @@ const FeaturedTripsSection = () => {
           </div>
         )}
 
+        {/* No trips message */}
+        {trips.length === 0 && (
+          <div className="empty-favorites">
+            <h3>Маршруты не найдены</h3>
+            <p>В данный момент нет доступных маршрутов</p>
+          </div>
+        )}
+
         {/* Trips grid */}
-        {(activeFilter !== 'favorites' || favorites.length > 0) && (
+        {trips.length > 0 && (activeFilter !== 'favorites' || favorites.length > 0) && (
           <div className="trips-grid">
             {filteredTrips.map(trip => (
-              <div key={trip.id} className="trip-card" onClick={() => handleTripClick(trip)}>
+              <div key={trip.id} className="trip-card" onClick={() => handleTripClick(trip.id)}>
                 <div className="trip-image">
                   <img src={trip.image} alt={trip.title} />
                   <span className="trip-duration">{trip.duration}</span>
                   <button 
                     className={`favorite-btn ${favorites.includes(trip.id) ? 'active' : ''}`}
-                    onClick={(e) => {
-                      e.stopPropagation(); 
-                      toggleFavorite(trip.id);
-                    }}
+                    onClick={(e) => toggleFavorite(trip.id, e)}
                     aria-label="Add to favorites"
                   >
                     {favorites.includes(trip.id) 
@@ -122,20 +176,20 @@ const FeaturedTripsSection = () => {
                   <h3>{trip.title}</h3>
                   <p>{trip.description}</p>
                   <div className="trip-details">
-                    <div className="trip-price">{trip.price}</div>
+                    <div className="trip-price">{trip.price}тг</div>
                     <div className="trip-rating">
                       <i className="fas fa-star"></i>
-                      <span>{trip.rating}</span>
+                      <span>{trip.rating || trip.averageRating || 4.5}</span>
                     </div>
                   </div>
                   <div className="trip-meta">
                     <span>
                       <i className="fas fa-users"></i>
-                      {trip.participants} участников
+                      {trip.participants || trip.capacity || 10} участников
                     </span>
                     <span>
                       <i className="fas fa-mountain"></i>
-                      {trip.difficulty}
+                      {trip.difficulty || 'Средний'}
                     </span>
                   </div>
                 </div>
@@ -144,17 +198,8 @@ const FeaturedTripsSection = () => {
           </div>
         )}
 
-      
-        {selectedTrip && (
-          <TripModal 
-            trip={selectedTrip} 
-            onClose={handleCloseModal}
-            onBookTrip={handleBookTrip}
-          />
-        )}
-
         <div className="view-all-trips">
-          <Link to="/" className="btn btn-primary">
+          <Link to="/trips" className="btn btn-primary">
             Смотреть все маршруты
           </Link>
         </div>

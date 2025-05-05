@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import "../styles/AuthPage.css";
 import authService from "../services/authService";
+import Header from "./Header";
+import Footer from "./Footer";
 
 const AuthPage = () => {
     const { mode = "login" } = useParams();
@@ -37,9 +39,21 @@ const AuthPage = () => {
                 navigate("/auth/login");
             } else {
                 const response = await authService.login(formData.email, formData.password);
-                // Store the token in localStorage or a secure storage
+                console.log('Login response:', response);
+                
+                // Store the token in localStorage
                 localStorage.setItem("token", response.token);
-                navigate("/");
+                
+                // For debugging purposes, store user role if available
+                if (response.role) {
+                    localStorage.setItem("userRole", response.role);
+                } else if (response.roles) {
+                    localStorage.setItem("userRole", Array.isArray(response.roles) ? response.roles.join(',') : response.roles);
+                } else if (response.user && response.user.role) {
+                    localStorage.setItem("userRole", Array.isArray(response.user.role) ? response.user.role.join(',') : response.user.role);
+                }
+                
+                navigate("/profile");
             }
         } catch (error) {
             setError(error.message || "Произошла ошибка при аутентификации");
@@ -53,118 +67,122 @@ const AuthPage = () => {
     };
 
     return (
-        <div className="auth-page">
-            <div className="auth-container">
-                <Link to="/" className="back-button">
-                    ← Вернуться на главную
-                </Link>
-                
-                <div className="auth-content">
-                    <div className="auth-header">
-                        <h2>{mode === "login" ? "Вход" : "Регистрация"}</h2>
-                    </div>
+        <>
+            <Header />
+            <div className="auth-page">
+                <div className="auth-container">
+                    <Link to="/" className="back-button">
+                        ← Вернуться на главную
+                    </Link>
                     
-                    {error && (
-                        <div className="error-message" style={{ color: "red", marginBottom: "1rem" }}>
-                            {error}
+                    <div className="auth-content">
+                        <div className="auth-header">
+                            <h2>{mode === "login" ? "Вход" : "Регистрация"}</h2>
                         </div>
-                    )}
-                    
-                    <form onSubmit={handleSubmit} className="auth-form">
-                        {mode === "register" && (
-                            <div className="form-group name-field">
-                                <label htmlFor="name">Имя</label>
+                        
+                        {error && (
+                            <div className="error-message" style={{ color: "red", marginBottom: "1rem" }}>
+                                {error}
+                            </div>
+                        )}
+                        
+                        <form onSubmit={handleSubmit} className="auth-form">
+                            {mode === "register" && (
+                                <div className="form-group name-field">
+                                    <label htmlFor="name">Имя</label>
+                                    <input
+                                        type="text"
+                                        id="name"
+                                        name="name"
+                                        value={formData.name}
+                                        onChange={handleInputChange}
+                                        placeholder="Введите ваше имя"
+                                        required
+                                    />
+                                </div>
+                            )}
+
+                            <div className="form-group email-field">
+                                <label htmlFor="email">Email</label>
                                 <input
-                                    type="text"
-                                    id="name"
-                                    name="name"
-                                    value={formData.name}
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    value={formData.email}
                                     onChange={handleInputChange}
-                                    placeholder="Введите ваше имя"
+                                    placeholder="Введите ваш email"
                                     required
                                 />
                             </div>
-                        )}
 
-                        <div className="form-group email-field">
-                            <label htmlFor="email">Email</label>
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                value={formData.email}
-                                onChange={handleInputChange}
-                                placeholder="Введите ваш email"
-                                required
-                            />
-                        </div>
-
-                        <div className="form-group password-field">
-                            <label htmlFor="password">Пароль</label>
-                            <input
-                                type="password"
-                                id="password"
-                                name="password"
-                                value={formData.password}
-                                onChange={handleInputChange}
-                                placeholder="Введите пароль"
-                                required
-                            />
-                        </div>
-
-                        {mode === "register" && (
-                            <div className="form-group confirm-password-field">
-                                <label htmlFor="confirmPassword">
-                                    Подтвердите пароль
-                                </label>
+                            <div className="form-group password-field">
+                                <label htmlFor="password">Пароль</label>
                                 <input
                                     type="password"
-                                    id="confirmPassword"
-                                    name="confirmPassword"
-                                    value={formData.confirmPassword}
+                                    id="password"
+                                    name="password"
+                                    value={formData.password}
                                     onChange={handleInputChange}
-                                    placeholder="Повторите пароль"
+                                    placeholder="Введите пароль"
                                     required
                                 />
                             </div>
-                        )}
 
-                        <button 
-                            type="submit" 
-                            className="btn btn-primary"
-                            disabled={isLoading}
-                        >
-                            {isLoading ? "Загрузка..." : (mode === "login" ? "Войти" : "Зарегистрироваться")}
-                        </button>
-                    </form>
+                            {mode === "register" && (
+                                <div className="form-group confirm-password-field">
+                                    <label htmlFor="confirmPassword">
+                                        Подтвердите пароль
+                                    </label>
+                                    <input
+                                        type="password"
+                                        id="confirmPassword"
+                                        name="confirmPassword"
+                                        value={formData.confirmPassword}
+                                        onChange={handleInputChange}
+                                        placeholder="Повторите пароль"
+                                        required
+                                    />
+                                </div>
+                            )}
 
-                    <div className="auth-footer">
-                        <p>
-                            {mode === "login"
-                                ? "Нет аккаунта?"
-                                : "Уже есть аккаунт?"}
-                            <button
-                                className="link-button"
-                                onClick={() => switchMode(mode === "login" ? "register" : "login")}>
-                                {mode === "login" ? "Зарегистрироваться" : "Войти"}
+                            <button 
+                                type="submit" 
+                                className="btn btn-primary"
+                                disabled={isLoading}
+                            >
+                                {isLoading ? "Загрузка..." : (mode === "login" ? "Войти" : "Зарегистрироваться")}
                             </button>
-                        </p>
-                    </div>
-                    
-                    <div className="social-auth">
-                        <p>Или войдите через</p>
-                        <div className="social-buttons">
-                            <button className="social-btn google">
-                                Google
-                            </button>
-                            <button className="social-btn facebook">
-                                Facebook
-                            </button>
+                        </form>
+
+                        <div className="auth-footer">
+                            <p>
+                                {mode === "login"
+                                    ? "Нет аккаунта?"
+                                    : "Уже есть аккаунт?"}
+                                <button
+                                    className="link-button"
+                                    onClick={() => switchMode(mode === "login" ? "register" : "login")}>
+                                    {mode === "login" ? "Зарегистрироваться" : "Войти"}
+                                </button>
+                            </p>
+                        </div>
+                        
+                        <div className="social-auth">
+                            <p>Или войдите через</p>
+                            <div className="social-buttons">
+                                <button className="social-btn google">
+                                    Google
+                                </button>
+                                <button className="social-btn facebook">
+                                    Facebook
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <Footer />
+        </>
     );
 };
 

@@ -1,6 +1,7 @@
 :root {
   /* Primary Colors */
   --primary-green: #2E7D32;
+  --primary-green-rgb: 46, 125, 50;
   --primary-green-light: #4CAF50;
   --primary-green-dark: #1B5E20;
   
@@ -37,4 +38,4 @@
   --transition-fast: 0.2s ease;
   --transition-normal: 0.3s ease;
   --transition-slow: 0.5s ease;
-} 
+}

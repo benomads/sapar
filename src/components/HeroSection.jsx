@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/HeroSection.css";
 import heroBackground from "../assets/ALP-hero-bg-hiking-medium.png";
+import ContactModal from "./ContactModal";
 
 const HeroSection = () => {
+    const [showContactModal, setShowContactModal] = useState(false);
+
+    const openContactModal = () => {
+        setShowContactModal(true);
+    };
+
+    const closeContactModal = () => {
+        setShowContactModal(false);
+    };
+
     const scrollToSection = (sectionId) => {
         const element = document.getElementById(sectionId);
         element?.scrollIntoView({ behavior: "smooth" });
@@ -22,15 +33,21 @@ const HeroSection = () => {
                     <a href="#trips" className="btn btn-primary">
                         Найти маршрут
                     </a>
-                    <a href="#how-it-works" className="btn btn-outline">
-                        Узнать больше
-                    </a>
+                    <button onClick={openContactModal} className="btn btn-outline">
+                        Связаться с нами
+                    </button>
                 </div>
             </div>
             <div className="hero-scroll-indicator">
                 <span>Прокрутите вниз</span>
                 <div className="scroll-arrow"></div>
             </div>
+
+            {/* Contact Modal */}
+            <ContactModal 
+                isOpen={showContactModal} 
+                onClose={closeContactModal} 
+            />
         </section>
     );
 };

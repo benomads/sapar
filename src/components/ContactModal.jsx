@@ -1,199 +1,184 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/ContactModal.css';
+import contactService from '../services/contactService';
 
 const ContactModal = ({ isOpen, onClose }) => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    message: ''
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null);
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+    });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitSuccess, setSubmitSuccess] = useState(false);
+    const [submitError, setSubmitError] = useState('');
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
+    // Reset state when modal opens/closes
+    useEffect(() => {
+        if (isOpen) {
+            setFormData({
+                name: '',
+                email: '',
+                subject: '',
+                message: ''
+            });
+            setSubmitSuccess(false);
+            setSubmitError('');
+        }
+    }, [isOpen]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus(null);
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
 
-    
-    const botToken = '7644942189:AAHqpORfDeaWwYUtZxNSAtTBduOOh8Is4BY';
-    const chatId = '1002521847512';
-    
-    
-    const message = `
-📨 Новое сообщение с сайта:
-
-👤 Имя: ${formData.name}
-📧 Email: ${formData.email}
-📱 Телефон: ${formData.phone}
-
-💬 Сообщение:
-${formData.message}
-    `;
-
-    try {
-      // Send the message to Telegram
-      const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          chat_id: chatId,
-          text: message,
-          parse_mode: 'HTML'
-        }),
-      });
-
-      const result = await response.json();
-      
-      if (result.ok) {
-        setSubmitStatus('success');
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+        setSubmitError('');
         
-        setFormData({
-          name: '',
-          email: '',
-          phone: '',
-          message: ''
-        });
-        
-        setTimeout(() => {
-          onClose();
-          setSubmitStatus(null);
-        }, 2000);
-      } else {
-        setSubmitStatus('error');
-      }
-    } catch (error) {
-      console.error('Error sending message:', error);
-      setSubmitStatus('error');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+        try {
+            // Send message to Telegram
+            await contactService.sendMessageToTelegram(formData);
+            
+            setSubmitSuccess(true);
+        } catch (error) {
+            setSubmitError(error.message || 'Failed to send your message. Please try again later.');
+            console.error('Error sending contact form:', error);
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
 
-  if (!isOpen) return null;
+    // Close modal on escape key
+    useEffect(() => {
+        const handleEscape = (e) => {
+            if (e.key === 'Escape') {
+                onClose();
+            }
+        };
 
-  return (
-    <div className="contact-modal-overlay" onClick={onClose}>
-      <div className="contact-modal" onClick={(e) => e.stopPropagation()}>
-        <button className="contact-modal-close" onClick={onClose}>
-          <i className="fas fa-times"></i>
-        </button>
-        
-        <div className="contact-modal-header">
-          <h2>Связаться с нами</h2>
-          <p>Заполните форму, и мы свяжемся с вами в ближайшее время</p>
+        if (isOpen) {
+            document.addEventListener('keydown', handleEscape);
+        }
+
+        return () => {
+            document.removeEventListener('keydown', handleEscape);
+        };
+    }, [isOpen, onClose]);
+
+    // Prevent scrolling when modal is open
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, [isOpen]);
+
+    if (!isOpen) return null;
+
+    return (
+        <div className="modal-overlay" onClick={onClose}>
+            <div className="contact-modal" onClick={(e) => e.stopPropagation()}>
+                <button className="close-modal" onClick={onClose}>×</button>
+                <h2>Свяжитесь с нами</h2>
+                
+                {submitSuccess ? (
+                    <div className="success-message">
+                        <h3>Спасибо за ваше сообщение!</h3>
+                        <p>Мы получили ваш запрос и свяжемся с вами в ближайшее время.</p>
+                        <button 
+                            className="new-message-btn"
+                            onClick={() => setSubmitSuccess(false)}
+                        >
+                            Отправить еще сообщение
+                        </button>
+                        <button 
+                            className="close-btn"
+                            onClick={onClose}
+                        >
+                            Закрыть
+                        </button>
+                    </div>
+                ) : (
+                    <form className="contact-form" onSubmit={handleSubmit}>
+                        {submitError && <div className="error-message">{submitError}</div>}
+                        <div className="form-group">
+                            <label htmlFor="modal-name">Ваше имя *</label>
+                            <input 
+                                type="text"
+                                id="modal-name"
+                                name="name"
+                                value={formData.name}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="modal-email">Email *</label>
+                            <input 
+                                type="email"
+                                id="modal-email"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="modal-subject">Тема</label>
+                            <input 
+                                type="text"
+                                id="modal-subject"
+                                name="subject"
+                                value={formData.subject}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="modal-message">Сообщение *</label>
+                            <textarea
+                                id="modal-message"
+                                name="message"
+                                rows="5"
+                                value={formData.message}
+                                onChange={handleChange}
+                                required
+                            ></textarea>
+                        </div>
+                        <div className="form-note">
+                            <p>* Отправляя форму, вы соглашаетесь с политикой конфиденциальности и обработкой персональных данных</p>
+                        </div>
+                        <div className="form-actions">
+                            <button 
+                                type="button" 
+                                className="cancel-btn"
+                                onClick={onClose}
+                                disabled={isSubmitting}
+                            >
+                                Отмена
+                            </button>
+                            <button 
+                                type="submit" 
+                                className="submit-btn"
+                                disabled={isSubmitting}
+                            >
+                                {isSubmitting ? 'Отправка...' : 'Отправить сообщение'}
+                            </button>
+                        </div>
+                    </form>
+                )}
+            </div>
         </div>
-        
-        {submitStatus === 'success' ? (
-          <div className="success-message">
-            <i className="fas fa-check-circle"></i>
-            <h3>Сообщение отправлено!</h3>
-            <p>Спасибо за обращение. Мы свяжемся с вами в ближайшее время.</p>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="contact-form">
-            <div className="form-group">
-              <label htmlFor="name">Ваше имя</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                required
-                placeholder="Введите ваше имя"
-              />
-            </div>
-            
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                required
-                placeholder="Введите ваш email"
-              />
-            </div>
-            
-            <div className="form-group">
-              <label htmlFor="phone">Телефон</label>
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
-                value={formData.phone}
-                onChange={handleInputChange}
-                placeholder="Введите ваш номер телефона"
-              />
-            </div>
-            
-            <div className="form-group">
-              <label htmlFor="message">Сообщение</label>
-              <textarea
-                id="message"
-                name="message"
-                value={formData.message}
-                onChange={handleInputChange}
-                required
-                placeholder="Опишите ваш вопрос или запрос"
-                rows="4"
-              ></textarea>
-            </div>
-            
-            {submitStatus === 'error' && (
-              <div className="error-message">
-                <i className="fas fa-exclamation-circle"></i>
-                <p>Произошла ошибка при отправке сообщения. Пожалуйста, попробуйте снова позже.</p>
-              </div>
-            )}
-            
-            <button 
-              type="submit" 
-              className="btn btn-primary submit-btn"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? (
-                <>
-                  <span className="spinner"></span>
-                  Отправка...
-                </>
-              ) : 'Отправить сообщение'}
-            </button>
-          </form>
-        )}
-        
-        <div className="contact-modal-footer">
-          <div className="alternative-contacts">
-            <p>Другие способы связи:</p>
-            <div className="contact-methods">
-              <div className="contact-method">
-                <i className="fas fa-phone"></i>
-                <span>+7 (777) 777-77-77</span>
-              </div>
-              <div className="contact-method">
-                <i className="fas fa-envelope"></i>
-                <span>info@sapar.kz</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default ContactModal; 
