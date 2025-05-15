@@ -38,7 +38,7 @@ const TripsPage = () => {
         rating: 0
     });
     
-    // Filter states
+
     const [filters, setFilters] = useState({
         search: '',
         difficulty: '',
@@ -53,13 +53,13 @@ const TripsPage = () => {
     const [editImageFile, setEditImageFile] = useState(null);
 
     useEffect(() => {
-        // Check if user is admin
+    
         const currentUser = authService.getCurrentUser();
         console.log('Current user:', currentUser);
         console.log('Is admin?', authService.isAdmin());
         setIsAdmin(authService.isAdmin());
         
-        // Fetch trips from the backend
+        
         const fetchTrips = async () => {
             try {
                 setIsLoading(true);
@@ -68,12 +68,11 @@ const TripsPage = () => {
                 
                 let tripsData = [];
                 
-                // Check the shape of the data
                 if (Array.isArray(response) && response.length > 0) {
                     console.log('Response is an array with', response.length, 'items');
                     tripsData = response;
                 } else if (response && typeof response === 'object') {
-                    // Look for common response wrapper patterns
+                   
                     if (Array.isArray(response.data) && response.data.length > 0) {
                         console.log('Response has data array with', response.data.length, 'items');
                         tripsData = response.data;
@@ -91,16 +90,16 @@ const TripsPage = () => {
                         tripsData = response.items;
                     } else {
                         console.warn('Response format unknown or empty');
-                        // Don't use mock data, use an empty array instead
+                      
                         tripsData = [];
                     }
                 } else {
                     console.warn('Unexpected response format or empty');
-                    // Don't use mock data, use an empty array instead
+                    
                     tripsData = [];
                 }
                 
-                // Ensure all trips have required properties with default values
+                
                 tripsData = tripsData.map(trip => ({
                     id: trip.id || Math.random().toString(36).substr(2, 9),
                     title: trip.title || 'Unnamed Trip',
@@ -139,7 +138,7 @@ const TripsPage = () => {
     const applyFilters = () => {
         let results = [...trips];
 
-        // Apply search filter
+        
         if (filters.search) {
             const searchTerm = filters.search.toLowerCase();
             results = results.filter(trip => 
@@ -149,12 +148,12 @@ const TripsPage = () => {
             );
         }
 
-        // Apply difficulty filter
+        
         if (filters.difficulty) {
             results = results.filter(trip => trip.difficulty === filters.difficulty);
         }
 
-        // Apply duration filter
+        
         if (filters.duration) {
             results = results.filter(trip => {
                 const dayCount = parseInt(trip.duration.split(' ')[0]);
@@ -167,7 +166,7 @@ const TripsPage = () => {
             });
         }
 
-        // Apply price filters
+       
         if (filters.minPrice) {
             results = results.filter(trip => trip.price >= Number(filters.minPrice));
         }
@@ -175,14 +174,14 @@ const TripsPage = () => {
             results = results.filter(trip => trip.price <= Number(filters.maxPrice));
         }
 
-        // Apply location filter
+        
         if (filters.location) {
             results = results.filter(trip => 
                 trip.location.toLowerCase().includes(filters.location.toLowerCase())
             );
         }
 
-        // Filter favorites
+        
         if (filters.showFavorites) {
             results = results.filter(trip => trip.isFavorite);
         }
@@ -216,14 +215,14 @@ const TripsPage = () => {
             return;
         }
         
-        // Check if user is logged in
+        
         if (!authService.isAuthenticated()) {
             setError('Пожалуйста, войдите в систему, чтобы добавить маршрут в избранное');
             return;
         }
         
         try {
-            // Find the trip
+            
             const tripToUpdate = trips.find(trip => trip.id === tripId);
             if (!tripToUpdate) {
                 console.error('Trip not found with id:', tripId);
@@ -233,19 +232,19 @@ const TripsPage = () => {
             const newFavoriteStatus = !tripToUpdate.isFavorite;
             console.log(`Setting favorite status for trip ${tripId} to ${newFavoriteStatus}`);
             
-            // Update UI immediately for better user experience (optimistic update)
+            
             setTrips(prevTrips => prevTrips.map(trip => 
                 trip.id === tripId 
                     ? { ...trip, isFavorite: newFavoriteStatus } 
                     : trip
             ));
             
-            // Now make the API call
+           
             try {
                 const result = await tripService.toggleFavorite(tripId, newFavoriteStatus);
                 console.log(`Successfully set favorite for trip ${tripId} to ${newFavoriteStatus}`, result);
                 
-                // If the API response doesn't match what we expected, revert the UI
+                
                 if (result.isFavorite !== newFavoriteStatus) {
                     console.warn('API returned different favorite state than requested, updating UI to match');
                     setTrips(prevTrips => prevTrips.map(trip => 
@@ -256,7 +255,7 @@ const TripsPage = () => {
                 }
             } catch (apiError) {
                 console.error('API error when setting favorite:', apiError);
-                // Revert UI state if API call fails
+                
                 setTrips(prevTrips => prevTrips.map(trip => 
                     trip.id === tripId 
                         ? { ...trip, isFavorite: !newFavoriteStatus } 
@@ -282,7 +281,7 @@ const TripsPage = () => {
         const file = e.target.files[0];
         if (file) {
             setImageFile(file);
-            // Still show a preview, but use URL.createObjectURL for better performance
+            
             const imagePreviewUrl = URL.createObjectURL(file);
             setNewTrip(prev => ({
                 ...prev,
@@ -295,7 +294,7 @@ const TripsPage = () => {
         const file = e.target.files[0];
         if (file) {
             setEditImageFile(file);
-            // Still show a preview, but use URL.createObjectURL for better performance
+            
             const imagePreviewUrl = URL.createObjectURL(file);
             setEditTrip(prev => ({
                 ...prev,
@@ -304,7 +303,7 @@ const TripsPage = () => {
         }
     };
 
-    // Handle API errors and display appropriate messages
+    
     const handleApiError = (error, defaultMessage) => {
         console.error(error);
         if (error.message && error.message.includes('Unauthorized')) {
@@ -321,19 +320,18 @@ const TripsPage = () => {
             setIsLoading(true);
             setError('');
             
-            // First, create the trip with basic data
+           
             const createdTrip = await tripService.createTrip({
                 ...newTrip,
-                // Don't send the base64 image string
+                
                 image: null
             });
             
-            // Then, if we have an image file, upload it separately
+            
             if (imageFile) {
                 await tripService.uploadMainImage(createdTrip.id, imageFile);
             }
             
-            // Clear the form and image file
             setNewTrip({
                 title: '',
                 description: '',
@@ -348,7 +346,6 @@ const TripsPage = () => {
             });
             setImageFile(null);
             
-            // Add the trip to the state
             fetchTrips();
             setShowCreateForm(false);
         } catch (err) {
@@ -372,7 +369,6 @@ const TripsPage = () => {
             setIsLoading(true);
             await tripService.deleteTrip(tripId);
             
-            // Remove from local state
             setTrips(prevTrips => prevTrips.filter(trip => trip.id !== tripId));
             setError('');
         } catch (err) {
@@ -423,23 +419,22 @@ const TripsPage = () => {
             setIsLoading(true);
             setError('');
             
-            // First, update the trip with basic data
             const updatedTrip = await tripService.updateTrip(editTrip.id, {
                 ...editTrip,
-                // Don't send the base64 image string if we have a new file
+
                 image: editImageFile ? null : editTrip.image
             });
             
-            // Then, if we have a new image file, upload it separately
+
             if (editImageFile) {
                 await tripService.uploadMainImage(updatedTrip.id, editImageFile);
             }
             
-            // Clear the edit state and image file
+
             setEditTrip(null);
             setEditImageFile(null);
             
-            // Refresh the trips list
+
             fetchTrips();
             setShowEditForm(false);
         } catch (err) {
@@ -449,11 +444,11 @@ const TripsPage = () => {
         }
     };
 
-    // Debug the filterTrips state before rendering
+
     useEffect(() => {
         console.log('filteredTrips:', filteredTrips);
         console.log('filteredTrips length:', filteredTrips.length);
-        // Check if all required properties exist
+
         if (filteredTrips.length > 0) {
             const firstTrip = filteredTrips[0];
             console.log('Sample trip object:', firstTrip);

@@ -28,7 +28,7 @@ const authService = {
         }
     },
 
-    // Parse JWT token to get user data
+
     parseJwt(token) {
         try {
             const base64Url = token.split('.')[1];
@@ -37,7 +37,6 @@ const authService = {
                 return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
             }).join(''));
             
-            // Log the token payload for debugging
             const payload = JSON.parse(jsonPayload);
             console.log('JWT payload:', payload);
             return payload;
@@ -47,7 +46,6 @@ const authService = {
         }
     },
 
-    // Get current user data from token
     getCurrentUser() {
         const token = localStorage.getItem('token');
         if (!token) return null;
@@ -55,9 +53,7 @@ const authService = {
         return this.parseJwt(token);
     },
 
-    // Check if current user is admin
     isAdmin() {
-        // Check for manually stored userRole in localStorage (debugging purpose)
         const storedRole = localStorage.getItem('userRole');
         console.log('Stored user role:', storedRole);
         if (storedRole && (storedRole.includes('ADMIN') || storedRole.includes('ROLE_ADMIN'))) {
@@ -69,31 +65,25 @@ const authService = {
         
         if (!user) return false;
         
-        // Handle different possible formats for roles in JWT token
         const checkForAdmin = (obj) => {
             if (!obj) return false;
             
-            // Check if roles is an array
             if (Array.isArray(obj.roles)) {
                 return obj.roles.includes('ADMIN') || obj.roles.includes('ROLE_ADMIN');
             }
             
-            // Check if roles is a string
             if (typeof obj.roles === 'string') {
                 return obj.roles === 'ADMIN' || obj.roles === 'ROLE_ADMIN';
             }
             
-            // Check if role property exists (singular)
             if (Array.isArray(obj.role)) {
                 return obj.role.includes('ADMIN') || obj.role.includes('ROLE_ADMIN');
             }
             
-            // Check if role is a string
             if (typeof obj.role === 'string') {
                 return obj.role === 'ADMIN' || obj.role === 'ROLE_ADMIN';
             }
             
-            // Check if authorities property exists (Spring Security format)
             if (Array.isArray(obj.authorities)) {
                 return obj.authorities.some(auth => 
                     auth === 'ADMIN' || 
@@ -105,10 +95,8 @@ const authService = {
             return false;
         };
         
-        // Check directly in user object
         if (checkForAdmin(user)) return true;
         
-        // Some JWT tokens might have user info nested in different properties
         if (user.user && checkForAdmin(user.user)) return true;
         if (user.data && checkForAdmin(user.data)) return true;
         
